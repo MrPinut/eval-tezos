@@ -1,0 +1,50 @@
+{
+  "checksum": "4486a8bae122781bf5ced88e50745d7f",
+  "root": "data@link-dev:./package.json",
+  "node": {
+    "nft-factory-cameligo@1.0.0@d41d8cd9": {
+      "id": "nft-factory-cameligo@1.0.0@d41d8cd9",
+      "name": "nft-factory-cameligo",
+      "version": "1.0.0",
+      "source": {
+        "type": "install",
+        "source": [
+          "archive:https://packages.ligolang.org/-/api/nft-factory-cameligo/-/nft-factory-cameligo-1.0.0.tgz#sha1:20c776256f1efd6276f4bd8285bb429bbcc2bcfe"
+        ]
+      },
+      "overrides": [],
+      "dependencies": [],
+      "devDependencies": []
+    },
+    "ligo-extendable-fa2@1.0.4@d41d8cd9": {
+      "id": "ligo-extendable-fa2@1.0.4@d41d8cd9",
+      "name": "ligo-extendable-fa2",
+      "version": "1.0.4",
+      "source": {
+        "type": "install",
+        "source": [
+          "archive:https://packages.ligolang.org/-/api/ligo-extendable-fa2/-/ligo-extendable-fa2-1.0.4.tgz#sha1:4c41214de0dfb9e377bdc3db9afa27c753ee039d"
+        ]
+      },
+      "overrides": [],
+      "dependencies": [],
+      "devDependencies": []
+    },
+    "data@link-dev:./package.json": {
+      "id": "data@link-dev:./package.json",
+      "name": "data",
+      "version": "link-dev:./package.json",
+      "source": {
+        "type": "link-dev",
+        "path": ".",
+        "manifest": "package.json"
+      },
+      "overrides": [],
+      "dependencies": [
+        "nft-factory-cameligo@1.0.0@d41d8cd9",
+        "ligo-extendable-fa2@1.0.4@d41d8cd9"
+      ],
+      "devDependencies": []
+    }
+  }
+}

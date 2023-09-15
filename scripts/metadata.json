@@ -1,0 +1,10 @@
+{
+    "name" : "My smart contract",
+    "authors" : "MrPinut",
+    "interfaces" : [
+        "TZIP-11",
+        "TZIP-12"
+    ],
+    "version" : "542.321.62"
+        
+}
