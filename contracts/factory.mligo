@@ -23,13 +23,13 @@ type parameter =
 
 let addAdmin (newAdmin : address) (store : extended_storage) : extended_storage =
     let isAdmin = Map.find_opt Tezos.get_sender() store.adminMap in
-    let () = if (isAdmin = None || False ) then (failwith "Not an Admin") in
+    let () = if (isAdmin = None || False ) then (failwith "Not an Admin") in 
     let isnewAdmin = Map.find_opt newAdmin store.adminMap in
     match isnewAdmin with
-    | True -> (failwith "already Admin")
-    | False -> let newMap = Map.update newAdmin True store.adminMap in
-    | None -> let newMap = Map.add newAdmin True store.adminMap in
-{ store with adminMap = newMap }
+    | True -> (failwith "already Admin") 
+    | False -> let newMap = Map.update newAdmin True store.adminMap in { store.extension with adminMap = newMap }
+
+    | None -> let newMap = Map.add newAdmin True store.adminMap in { store.extension with adminMap = newMap }
 //     let () = if (isnewAdmin = True )
 //         then (failwith "Already Admin")
 //         else if (isnewAdmin = False)
@@ -43,16 +43,15 @@ let suppAdmin ( removedAdmin : address) (store : extended_storage) : extended_st
     let isAlreadyAdmin = Map.find_opt removedAdmin store.adminMap in
     let () = if (isAlreadyAdmin = False || None )
     then (failwith "Not an Admin")
-    else let newMap = Map.add removedAdmin False store.adminMap in
-        { store with adminMap = newMap }
+    else let newMap = Map.add removedAdmin False store.adminMap in { store.extension with adminMap = newMap }
 
 
 let getWhitelisted (newAdmin : address) (store : extended_storage) : extended_storage =
-    let () = if (Tezos.get_amount() < 10tez ) then failwith "Not enougth Tez"
+    let () = if (Tezos.get_amount() < 10tez ) then (failwith "Not enougth Tez") in
     let isCreatorBlacklisted = Map.find_opt Tezos.get_sender() store.blackMap in
-    let () = if (isCreatorBlacklisted = True) then failwith "Creator Blacklisted"
+    let () = if (isCreatorBlacklisted = True) then (failwith "Creator Blacklisted") in
     let isCreatorWhitelisted = Map.find_opt Tezos.get_sender() store.whiteMap in
-    let () = if (isCreatorWhitelisted = True) then failwith "Creator already Whitelisted"
+    let () = if (isCreatorWhitelisted = True) then (failwith "Creator already Whitelisted") in
     let () = if (isCreatorWhitelisted = False)
         then let newMap = Map.update newAdmin True store.whiteMap in
         else let newMap = Map.add newAdmin True store.whiteMap in
