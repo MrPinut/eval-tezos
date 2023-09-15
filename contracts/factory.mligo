@@ -6,7 +6,7 @@ type extension = {
     adminMap : (address, bool) map;
     whiteMap : (address, bool) map;
     blackMap : (address, bool) map;
-    collectionMap : (address, bool) map; // not used
+    collectionList : address list; // not used
 }
 
 type storage = Fact_FA2.storage
@@ -53,7 +53,7 @@ let getWhitelisted (store : extended_storage) : extended_storage =
     let isCreatorBlacklisted = Map.find_opt Tezos.get_sender() store.blackMap in
     let () = if (isCreatorBlacklisted = True) then (failwith  Errors.creator_blacklisted) in
     let isCreatorWhitelisted = Map.find_opt Tezos.get_sender() store.whiteMap in
-    let () = if (isCreatorWhitelisted = True) then (failwith "Creator already Whitelisted") in
+    let () = if (isCreatorWhitelisted = True) then (failwith Errors.creator_already_whitelisted) in
     let () = if (isCreatorWhitelisted = False)
         then let newMap = Map.update Tezos.get_sender() True store.whiteMap in
         else let newMap = Map.add Tezos.get_sender() True store.whiteMap in
@@ -74,9 +74,9 @@ let mygererateCollection (param : Fact_FA2.parameter) (store : extended_storage)
     let isCreatorBlacklisted = Map.find_opt Tezos.get_sender() store.blackMap in
     let () = if (isCreatorBlacklisted = True) then (failwith Errors.creator_blacklisted ) in
     let isCreatorWhitelisted = Map.find_opt Tezos.get_sender() store.whiteMap in
-    let () = if (isCreatorWhitelisted = False || None) then failwith "Creator not Whitelisted"
-    Fact_FA2.generateCollection(param, store)
-    
+    let () = if (isCreatorWhitelisted = False || None) then (failwith Errors.creator_not_whitlisted ) in
+    let newcollection = Fact_FA2.generateCollection(param, store) in
+    {store with store.storage = newcollection.storage}
 
 let main(action : parameter) (store : extended_storage ) : return =
     ([] : operation list), (match action with
@@ -89,5 +89,8 @@ let main(action : parameter) (store : extended_storage ) : return =
 [@view] let getCollectionByUser (owner : address) (store :extended_storage) : address list =
     let address_list = Map.find_opt owner store.storage.t.owned_collections in
     match address_list with
-    | None -> failwith "Nothing for this owner"
+    | None -> (failwith Errors.nothing_for_this_owner "Nothing for this owner")
     | Some (addresses) -> addresses
+
+[@view] let getAllAddress (store : extended_storage) : address list =
+    store.extension.collectionList

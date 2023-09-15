@@ -32,7 +32,7 @@ const deploy = async () => {
             adminMap : new MichelsonMap(),
             whiteMap : new MichelsonMap(),
             BlackMap : new MichelsonMap(),
-            collectionMap : new MichelsonMap(), // not used
+            collectionList : [], // not used
             all_collections : new MichelsonMap(),
             owned_collections : new MichelsonMap(),
             metadata : MichelsonMap.fromLiteral({
