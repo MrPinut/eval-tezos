@@ -23,7 +23,7 @@ compileLigo: contracts/factory.mligo
 
 testLigo:
 	@echo "Testing Tezos Contract... "
-	@$(LIGO) run test ./test/main.test.mligo
+	@$(LIGO) run test ./tests/factory.mligo
 
 ###########################################################
 
